@@ -1,0 +1,13 @@
+package edu.icet.ecom.dto;
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Restaurant {
+    private Long id;
+    private String name;
+    private String address;
+    private String contactNumber;
+}

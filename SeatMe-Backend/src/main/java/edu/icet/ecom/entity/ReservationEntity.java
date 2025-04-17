@@ -21,6 +21,6 @@ public class ReservationEntity {
 
     @ManyToOne
     private TableEntity table;
-
+    
     private LocalDateTime reservationTime;
 }
