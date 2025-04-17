@@ -1,33 +1,62 @@
 package edu.icet.ecom.service.impl;
 
+import edu.icet.ecom.entity.ReservationEntity;
 import edu.icet.ecom.entity.TableEntity;
+import edu.icet.ecom.repository.ReservationRepository;
 import edu.icet.ecom.repository.TableRepository;
+import edu.icet.ecom.service.TableService;
+import edu.icet.ecom.dto.Table;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class TableServiceImpl {
+public class TableServiceImpl implements TableService {
 
     private final TableRepository tableRepository;
+    private final ReservationRepository reservationRepository;
+    private final ModelMapper modelMapper;
 
-    public List<TableEntity> getTablesByRestaurantId(Long restaurantId) {
-        return tableRepository.findByRestaurantId(restaurantId);
+    // Create a new table and return the DTO
+    @Override
+    public Table createTable(Table tableDTO) {
+        TableEntity tableEntity = modelMapper.map(tableDTO, TableEntity.class);
+        TableEntity savedTable = tableRepository.save(tableEntity);
+        return modelMapper.map(savedTable, Table.class);
     }
 
-    public List<TableEntity> getAvailableTablesByRestaurantId(Long restaurantId) {
-        return tableRepository.findByRestaurantIdAndAvailableTrue(restaurantId);
+    // Get all tables and return a list of DTOs
+    @Override
+    public List<Table> getAllTables() {
+        return tableRepository.findAll().stream()
+                .map(tableEntity -> modelMapper.map(tableEntity, Table.class))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<Table> getAvailableTables() {
+        return tableRepository.findByAvailableTrue().stream()
+                .map(table -> modelMapper.map(table, Table.class))
+                .collect(Collectors.toList());
     }
 
-    public TableEntity addTable(TableEntity table) {
-        return tableRepository.save(table);
+    @Override
+    public boolean isTableAvailable(Long tableId, LocalDateTime requestedTime) {
+        List<ReservationEntity> reservations = reservationRepository.findByTableId(tableId);
+
+        for (ReservationEntity reservation : reservations) {
+            LocalDateTime start = reservation.getReservationTime();
+            LocalDateTime end = start.plusHours(2); // Assume 2-hour time slots
+            if (!requestedTime.isBefore(start) && !requestedTime.isAfter(end)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public Optional<TableEntity> getTableById(Long id) {
-        return tableRepository.findById(id);
-    }
+
 }
-
