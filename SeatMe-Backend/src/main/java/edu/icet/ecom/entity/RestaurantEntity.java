@@ -1,15 +1,15 @@
 package edu.icet.ecom.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Data
+@Table(name = "restaurant")
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantEntity {
@@ -19,5 +19,14 @@ public class RestaurantEntity {
 
     private String name;
     private String address;
+
+    @Column(unique = true)
     private String contactNumber;
+
+    @NotNull
+    @Column(unique = true)
+    private String managerEmail;
+
+    @NotNull
+    private String managerPassword;
 }

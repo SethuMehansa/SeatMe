@@ -1,0 +1,120 @@
+<div
+  class="w-full max-w-3xl mx-auto p-8 bg-white/20 backdrop-blur-lg  dark:bg-gray-800/70 dark:border-gray-700 rounded-2xl shadow-2xl"
+>
+  <div class="space-y-6">
+    <h5 class="text-3xl font-semibold text-gray-200 dark:text-white text-center">
+      Signup
+    </h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label for="signup-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Restaurant Name
+        </label>
+        <input
+          [(ngModel)]="signupData.name"
+          type="text"
+          name="name"
+          id="signup-name"
+          class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+          placeholder="The Place"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="signup-address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Restaurant Address
+        </label>
+        <input
+          [(ngModel)]="signupData.address"
+          type="text"
+          name="address"
+          id="signup-address"
+          class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+          placeholder="Colombo"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="signup-contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Contact Number
+        </label>
+        <input
+          [(ngModel)]="signupData.contactNumber"
+          type="tel"
+          name="contactNumber"
+          id="signup-contact"
+          class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+          placeholder="0123456789"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="signup-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Your email
+        </label>
+        <input
+          [(ngModel)]="signupData.managerEmail"
+          type="email"
+          name="email"
+          id="signup-email"
+          class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+          placeholder="name@company.com"
+          required
+        />
+      </div>
+
+      <div class="md:col-span-2">
+        <label for="signup-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Your password
+        </label>
+        <input
+          [(ngModel)]="signupData.managerPassword"
+          type="password"
+          name="password"
+          id="signup-password"
+          class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+    </div>
+
+    <button
+      type="button"
+      (click)="signup()"
+      class="w-full py-3 font-semibold rounded-xl text-gray-800 bg-gradient-to-r from-lime-100 via-green-100 to-lime-100 hover:from-lime-200 hover:via-green-200 hover:to-lime-200 focus:outline-none focus:ring-2 focus:ring-lime-300 dark:focus:ring-lime-600 shadow-lg transition"
+    >
+      Sign Up
+    </button>
+
+    <p class="text-sm text-center text-gray-600 dark:text-gray-400">
+      <a
+        routerLink="../restaurant-login"
+        class="inline-flex items-center gap-1 font-medium text-gray-900 hover:underline dark:text-lime-400"
+      >
+        <svg
+          class="w-[21px] h-[21px] text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14M5 12l4-4m-4 4 4 4"
+          />
+        </svg>
+        Already have an account? Login
+      </a>
+    </p>
+  </div>
+</div>

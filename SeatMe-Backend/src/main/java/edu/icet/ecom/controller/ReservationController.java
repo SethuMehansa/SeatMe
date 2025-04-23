@@ -17,24 +17,24 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @PostMapping
+    @PostMapping("/create-reservation")
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.createReservation(reservation));
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get-by-id/{id}")
     public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
         return reservationService.getReservationById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {
         reservationService.deleteReservation(id);
         return ResponseEntity.noContent().build();

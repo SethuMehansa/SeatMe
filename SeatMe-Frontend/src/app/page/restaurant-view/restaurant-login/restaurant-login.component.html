@@ -1,0 +1,64 @@
+<!-- Login Card -->
+<div
+  class="w-full max-w-sm p-6 bg-white/20 backdrop-blur-lg  dark:bg-gray-800/70 dark:border-gray-700 rounded-2xl shadow-2xl"
+>
+  <div class="space-y-6">
+    <h5 class="text-2xl font-semibold text-gray-100 dark:text-white">
+      Log In 
+    </h5>
+
+    <div>
+      <label
+        for="email"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+      >
+        Your email
+      </label>
+      <input
+      [(ngModel)]="loginData.managerEmail"
+        type="email"
+        name="email"
+        id="email"
+        class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+        placeholder="name@company.com"
+        required
+      />
+    </div>
+
+    <div>
+      <label
+        for="password"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+      >
+        Your password
+      </label>
+      <input
+      [(ngModel)]="loginData.managerPassword"
+        type="password"
+        name="password"
+        id="password"
+        class="w-full p-3 bg-white/60 backdrop-blur-sm dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-200 dark:focus:ring-lime-700 transition"
+        placeholder="••••••••"
+        required
+      />
+    </div>
+
+    <button
+      type="button"
+      (click)="login()"
+      class="w-full py-3 font-semibold rounded-xl text-gray-800 bg-gradient-to-r from-lime-100 via-green-100 to-lime-100 hover:from-lime-200 hover:via-green-200 hover:to-lime-200 focus:outline-none focus:ring-2 focus:ring-lime-300 dark:focus:ring-lime-600 shadow-lg transition"
+    >
+      Login
+    </button>
+
+    <p class="text-sm text-center text-gray-900 dark:text-gray-400">
+      Not registered?
+      <a
+        routerLink="../restaurant-signup"
+        class="font-medium text-gray-200 hover:underline dark:text-gray-400"
+      >
+        Create account
+      </a>
+    </p>
+  </div>
+</div>

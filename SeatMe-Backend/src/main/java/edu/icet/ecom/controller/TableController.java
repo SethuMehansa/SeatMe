@@ -19,12 +19,12 @@ public class TableController {
 
     private final TableService tableService;
 
-    @PostMapping
+    @PostMapping("/create-table")
     public ResponseEntity<Table> createTable(@RequestBody Table table) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tableService.createTable(table));
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<Table>> getAllTables() {
         return ResponseEntity.ok(tableService.getAllTables());
     }

@@ -1,0 +1,19 @@
+<!-- Centered Wrapper -->
+<div class="flex items-center justify-center min-h-screen w-full bg-transparent">
+    <!-- Restaurant Card -->
+    <div
+      class="w-[70vw] h-[70vh] p-6 bg-white/80 backdrop-blur-lg dark:bg-gray-800/70 border border-white/30 dark:border-gray-700 rounded-2xl shadow-2xl space-y-6 overflow-auto"
+    >
+      <div>
+        <p class="text-4xl font-extrabold text-gray-900 dark:text-white">
+          {{ currentRestaurant?.name }}
+        </p>
+      </div>
+  
+      <div class="text-base text-gray-800 dark:text-gray-200">
+        <p><strong>Address:</strong> {{ currentRestaurant?.address }}</p>
+        <p><strong>Contact Number:</strong> {{ currentRestaurant?.contactNumber }}</p>
+      </div>
+    </div>
+  </div>
+  
