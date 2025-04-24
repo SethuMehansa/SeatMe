@@ -4,6 +4,7 @@ import edu.icet.ecom.entity.RestaurantEntity;
 import edu.icet.ecom.repository.RestaurantRepository;
 import edu.icet.ecom.service.RestaurantService;
 import edu.icet.ecom.dto.Restaurant;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,23 @@ public class RestaurantServiceImpl implements RestaurantService {
         } else {
             throw new RuntimeException("Restaurant with given email not found.");
         }
+    }
+    @Override
+    public RestaurantEntity updateRestaurant(Long id, RestaurantEntity updatedRestaurant) {
+        RestaurantEntity existing = restaurantRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant not found"));
+
+        existing.setName(updatedRestaurant.getName());
+        existing.setAddress(updatedRestaurant.getAddress());
+        existing.setContactNumber(updatedRestaurant.getContactNumber());
+        existing.setManagerEmail(updatedRestaurant.getManagerEmail());
+
+        // Optional: Only update password if provided (e.g., for profile updates)
+        if (updatedRestaurant.getManagerPassword() != null && !updatedRestaurant.getManagerPassword().isEmpty()) {
+            existing.setManagerPassword(updatedRestaurant.getManagerPassword());
+        }
+
+        return restaurantRepository.save(existing);
     }
 
 

@@ -3,6 +3,7 @@ package edu.icet.ecom.controller;
 import edu.icet.ecom.dto.Restaurant;
 import edu.icet.ecom.entity.RestaurantEntity;
 import edu.icet.ecom.service.RestaurantService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,15 @@ public class RestaurantController {
     @GetMapping("/email/{email}")
     public Restaurant getRestaurantByEmail(@PathVariable String email) {
         return restaurantService.getRestaurantDtoByEmail(email);
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantEntity updatedRestaurant) {
+        try {
+            RestaurantEntity updated = restaurantService.updateRestaurant(id, updatedRestaurant);
+            return ResponseEntity.ok(updated);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Restaurant not found.");
+        }
     }
 
 }

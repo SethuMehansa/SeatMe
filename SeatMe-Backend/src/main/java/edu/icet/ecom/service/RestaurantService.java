@@ -13,5 +13,6 @@ public interface RestaurantService {
     void signUp(Restaurant restaurant);
     boolean logIn(String email, String password);
     Restaurant getRestaurantDtoByEmail(String email);
+    RestaurantEntity updateRestaurant(Long id, RestaurantEntity updatedRestaurant);
 
 }
