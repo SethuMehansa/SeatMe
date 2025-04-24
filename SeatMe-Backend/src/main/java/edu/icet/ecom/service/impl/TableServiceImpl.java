@@ -57,6 +57,21 @@ public class TableServiceImpl implements TableService {
         }
         return true;
     }
+    @Override
+    public List<Table> getTablesByRestaurant(Long restaurantId) {
+        List<TableEntity> tableEntities = tableRepository.findByRestaurantId(restaurantId);
 
+        // Map List<TableEntity> to List<Table> using ModelMapper
+        return tableEntities.stream()
+                .map(tableEntity -> modelMapper.map(tableEntity, Table.class))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public void deleteTableById(Long id) {
+        if (!tableRepository.existsById(id)) {
+            throw new RuntimeException("Table not found with id: " + id);
+        }
+        tableRepository.deleteById(id);
+    }
 
 }

@@ -82,21 +82,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant getRestaurantDtoByEmail(String email) {
         List<RestaurantEntity> restaurantEntities = restaurantRepository.findByManagerEmail(email);
         if (!restaurantEntities.isEmpty()) {
-            return convertToDto(restaurantEntities.get(0));
+            return modelMapper.map(restaurantEntities.get(0), Restaurant.class);
         } else {
             throw new RuntimeException("Restaurant with given email not found.");
         }
     }
 
-    // Manual conversion method
-    private Restaurant convertToDto(RestaurantEntity entity) {
-        Restaurant dto = new Restaurant();
-        dto.setName(entity.getName());
-        dto.setAddress(entity.getAddress());
-        dto.setContactNumber(entity.getContactNumber());
-        dto.setManagerEmail(entity.getManagerEmail());
-        dto.setManagerPassword(entity.getManagerPassword());
-        return dto;
-    }
+
 
 }

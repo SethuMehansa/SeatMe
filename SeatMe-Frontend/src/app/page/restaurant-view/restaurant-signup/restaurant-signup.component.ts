@@ -17,11 +17,10 @@ import { Restaurant } from '../../../model/Restaurant';
     HttpClientModule
   ],
   templateUrl: './restaurant-signup.component.html',
-  providers: [RestaurantService],
   styleUrls: ['./restaurant-signup.component.css']
 })
 export class RestaurantSignupComponent {
-  public signupData: Restaurant = new Restaurant( '', '', '', '', '');
+  public signupData: Restaurant = new Restaurant( 0,'', '', '', '', '');
 
   constructor(
     private restaurantService: RestaurantService,

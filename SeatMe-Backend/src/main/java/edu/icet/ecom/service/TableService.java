@@ -12,6 +12,7 @@ public interface TableService {
     List<Table> getAllTables();
     List<Table> getAvailableTables();
     boolean isTableAvailable(Long tableId, LocalDateTime requestedTime);
-
+    List<Table> getTablesByRestaurant(Long restaurantId);
+    void deleteTableById(Long id);
 
 }

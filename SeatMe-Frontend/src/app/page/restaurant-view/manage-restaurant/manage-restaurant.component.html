@@ -1,19 +1,92 @@
-<!-- Centered Wrapper -->
-<div class="flex items-center justify-center min-h-screen w-full bg-transparent">
-    <!-- Restaurant Card -->
-    <div
-      class="w-[70vw] h-[70vh] p-6 bg-white/80 backdrop-blur-lg dark:bg-gray-800/70 border border-white/30 dark:border-gray-700 rounded-2xl shadow-2xl space-y-6 overflow-auto"
-    >
+<!-- Sidebar Trigger Button -->
+<button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+  <span class="sr-only">Open sidebar</span>
+  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75..."/></svg>
+</button>
+
+<!-- Sidebar -->
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+  <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+    <ul class="space-y-2 font-medium">
       <div>
-        <p class="text-4xl font-extrabold text-gray-900 dark:text-white">
-          {{ currentRestaurant?.name }}
-        </p>
+        <p class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ currentRestaurant?.name }}</p>
       </div>
-  
       <div class="text-base text-gray-800 dark:text-gray-200">
-        <p><strong>Address:</strong> {{ currentRestaurant?.address }}</p>
-        <p><strong>Contact Number:</strong> {{ currentRestaurant?.contactNumber }}</p>
+        <p>{{ currentRestaurant?.address }}</p>
+        <p>{{ currentRestaurant?.contactNumber }}</p>
       </div>
+      <li><a href="#" class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><span class="ms-3">Tables</span></a></li>
+      <li><a href="#" class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><span class="ms-3">Booked Tables</span></a></li>
+      <li><a href="#" class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><span class="ms-3">Available Tables</span></a></li>
+    </ul>
+  </div>
+</aside>
+
+<!-- Right-Aligned Main Content -->
+<div class="fixed top-8 right-0 h-[90vh] w-[80vw] bg-transparent" id="tables-display">
+  <div class="h-full p-6 bg-white/70 backdrop-blur-lg dark:bg-gray-800/70 border border-white/30 dark:border-gray-700 rounded-l-2xl shadow-2xl overflow-auto">
+    
+    <div *ngIf="currentRestaurant">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+        {{ currentRestaurant.name }} - Tables
+      </h1>
+
+      <!-- Add + Search Bar -->
+      <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+        <input type="text" placeholder="Search by table number..." [(ngModel)]="searchTerm" class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        <button (click)="showAddModal = true" class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300">+ Add Table</button>
+      </div>
+
+      <!-- Tables Grid -->
+      <div *ngIf="filteredTables.length > 0; else noTables" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let table of filteredTables" class="max-w-sm p-6 bg-white border border-gray-200 rounded-2xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+          <h5 class="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Table #{{ table.tableNumber }}</h5>
+          <p class="mb-1 text-gray-700 dark:text-gray-300">Capacity: {{ table.capacity }}</p>
+          <p class="mb-3 text-gray-700 dark:text-gray-300">Available: 
+            <span [ngClass]="table.available ? 'text-green-600' : 'text-red-600'">
+              {{ table.available ? 'Yes' : 'No' }}
+            </span>
+          </p>
+          <button 
+          *ngIf="table.id" (click)="deleteTable(table.id)" 
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800">
+            Delete
+            <svg class="w-4 h-4 ms-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <ng-template #noTables>
+        <p class="text-gray-600 dark:text-gray-300 mt-4">No tables found for this restaurant.</p>
+      </ng-template>
     </div>
   </div>
-  
+</div>
+
+<!-- Add Table Modal -->
+<div *ngIf="showAddModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl w-full max-w-md shadow-lg">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Add New Table</h2>
+
+    <form (ngSubmit)="addTable()">
+      <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Table Number</label>
+      <input type="text" [(ngModel)]="newTable.tableNumber" name="tableNumber" class="w-full p-2 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white" required>
+
+      <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Capacity</label>
+      <input type="number" [(ngModel)]="newTable.capacity" name="capacity" class="w-full p-2 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white" required>
+
+      <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Available</label>
+      <select [(ngModel)]="newTable.available" name="available" class="w-full p-2 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white">
+        <option [value]="true">Yes</option>
+        <option [value]="false">No</option>
+      </select>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" (click)="showAddModal = false" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 dark:bg-gray-600 dark:text-white">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

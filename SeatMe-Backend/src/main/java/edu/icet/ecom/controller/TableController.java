@@ -42,5 +42,17 @@ public class TableController {
     public ResponseEntity<List<Table>> getAllAvailableTables() {
         return ResponseEntity.ok(tableService.getAvailableTables());
     }
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<List<Table>> getTablesByRestaurant(@PathVariable Long restaurantId) {
+        List<Table> tables = tableService.getTablesByRestaurant(restaurantId);
+        return ResponseEntity.ok(tables);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTable(@PathVariable Long id) {
+        tableService.deleteTableById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
+
 

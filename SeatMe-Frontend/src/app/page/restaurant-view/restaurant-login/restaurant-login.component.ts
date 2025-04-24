@@ -20,7 +20,7 @@ import { Restaurant } from '../../../model/Restaurant';
   styleUrls: ['./restaurant-login.component.css']
 })
 export class RestaurantLoginComponent {
-  loginData: Restaurant = new Restaurant( '', '', '', '', '');
+  loginData: Restaurant = new Restaurant( 0,'', '', '', '', '');
 
   constructor(private restaurantService: RestaurantService,private router: Router ) {}
 
