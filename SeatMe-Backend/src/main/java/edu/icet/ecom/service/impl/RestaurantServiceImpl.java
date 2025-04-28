@@ -6,6 +6,7 @@ import edu.icet.ecom.service.RestaurantService;
 import edu.icet.ecom.dto.Restaurant;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
@@ -68,6 +70,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         for (RestaurantEntity restaurant : byEmail) {
             // Decrypt stored password and compare
             String decryptedPassword = textEncryptor.decrypt(restaurant.getManagerPassword());
+            System.out.println("Decrypted password: " + decryptedPassword);
             if (decryptedPassword.equals(password)) {
                 return true;
             }

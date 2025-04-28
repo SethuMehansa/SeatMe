@@ -5,6 +5,7 @@ export class Restaurant {
   contactNumber: string;
   managerEmail: string;
   managerPassword: string;
+  imageUrl:string
 
   constructor(
     id: number,
@@ -12,7 +13,8 @@ export class Restaurant {
     address: string,
     contactNumber: string,
     managerEmail: string,
-    managerPassword: string
+    managerPassword: string,
+    imageUrl:string
   ) {
     this.id = id;
     this.name = name;
@@ -20,5 +22,6 @@ export class Restaurant {
     this.contactNumber = contactNumber;
     this.managerEmail = managerEmail;
     this.managerPassword = managerPassword;
+    this.imageUrl=imageUrl;
   }
 }

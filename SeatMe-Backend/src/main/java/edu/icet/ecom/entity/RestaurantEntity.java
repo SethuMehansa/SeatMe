@@ -29,4 +29,6 @@ public class RestaurantEntity {
 
     @NotNull
     private String managerPassword;
+
+    private String imageUrl;
 }

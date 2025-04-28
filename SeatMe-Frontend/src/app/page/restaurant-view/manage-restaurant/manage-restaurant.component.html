@@ -28,26 +28,45 @@
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
     
-      <div>
-        <p class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ currentRestaurant?.name }}</p>
-      </div>
-      <div class="text-base text-gray-800 dark:text-gray-200">
+    <div class="text-center">
+      <!-- Restaurant Name -->
+      <p class="text-4xl font-extrabold text-gray-900 dark:text-white">
+        {{ currentRestaurant?.name }}
+      </p>
+
+      <!-- Restaurant Details -->
+      <div class="mt-2 text-base text-gray-800 dark:text-gray-200">
         <p>{{ currentRestaurant?.address }}</p>
         <p>{{ currentRestaurant?.contactNumber }}</p>
       </div>
-      <button
+
+      <!-- Restaurant Image -->
+      <div class="mt-4">
+        <img
+          *ngIf="currentRestaurant?.imageUrl"
+          [src]="currentRestaurant?.imageUrl"
+          alt="Restaurant Image"
+          class="w-full h-40 object-cover rounded-lg shadow-md"
+        />
+      </div>
+    </div>
+
+    <!-- Update Button -->
+    <button
       (click)="showUpdateModal = true"
-      class="mt-4 px-4 py-2 w-full text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
+      class="mt-6 px-4 py-2 w-full text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
       ✎ Update Details
     </button>
-    <div class="mt-6">
-      <button 
-  (click)="showDeleteModal = true"
-  class="px-4 py-2 w-full text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg">
-  🗑️ Delete Restaurant
-</button>
 
+    <!-- Delete Button -->
+    <div class="mt-4">
+      <button 
+        (click)="showDeleteModal = true"
+        class="px-4 py-2 w-full text-sm bg-red-600 hover:bg-red-700 text-white rounded-lg">
+        🗑️ Delete Restaurant
+      </button>
     </div>
+
   </div>
 </aside>
 <!-- Update Restaurant Modal -->

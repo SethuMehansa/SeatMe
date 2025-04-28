@@ -13,4 +13,5 @@ public class Restaurant {
 
     private String managerEmail;
     private String managerPassword;
+    private String imageUrl;
 }
