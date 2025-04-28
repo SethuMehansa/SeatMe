@@ -60,7 +60,7 @@
     z-index: 1;
   }
   
-  /* Responsive Styling */
+  
   @media (max-width: 768px) {
     .glass-button {
       display: block;

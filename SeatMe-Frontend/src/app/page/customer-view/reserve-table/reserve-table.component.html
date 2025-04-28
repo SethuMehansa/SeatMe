@@ -1,0 +1,23 @@
+<div class="reservation-card">
+    <h2>Confirm Your Reservation</h2>
+  
+    <div class="info">
+      <p><strong>Reservation under name:</strong> {{ customer?.name }}</p>
+      <p><strong>Restaurant:</strong> {{ restaurant?.name }}</p>
+      <p>{{ restaurant?.address }}</p>
+      <p>{{ restaurant?.contactNumber }}</p>
+      <p><strong>Table Number:</strong> {{ table?.tableNumber }}</p>
+      <p><strong>Capacity:</strong> {{ table?.capacity }}</p>
+    </div>
+  
+    <div class="form">
+      <label for="time">Reservation Time:</label>
+      <input id="time" type="datetime-local" [(ngModel)]="reservationTime" required>
+  
+      <label for="guests">Number of Guests:</label>
+      <input id="guests" type="number" [(ngModel)]="numberOfGuests" min="1" required>
+  
+      <button (click)="reserveTable()">Reserve This Table</button>
+    </div>
+  </div>
+  

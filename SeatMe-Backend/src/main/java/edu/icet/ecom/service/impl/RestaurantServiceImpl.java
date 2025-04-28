@@ -6,6 +6,7 @@ import edu.icet.ecom.service.RestaurantService;
 import edu.icet.ecom.dto.Restaurant;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final ModelMapper modelMapper;
+    private final BasicTextEncryptor textEncryptor;  // Injected encryptor
 
     // Create a new restaurant and return the DTO
     @Override
     public Restaurant createRestaurant(Restaurant restaurantDTO) {
-        // No password encryption, just save the password as is
+        // Encrypt the password before saving
+        restaurantDTO.setManagerPassword(textEncryptor.encrypt(restaurantDTO.getManagerPassword()));
+
         RestaurantEntity restaurantEntity = modelMapper.map(restaurantDTO, RestaurantEntity.class);
         RestaurantEntity savedRestaurant = restaurantRepository.save(restaurantEntity);
-
-        // Log saved restaurant to check the values
-        System.out.println("Saved Restaurant: " + savedRestaurant);
 
         return modelMapper.map(savedRestaurant, Restaurant.class);
     }
@@ -36,11 +37,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Restaurant> getAllRestaurants() {
         List<RestaurantEntity> restaurantEntities = restaurantRepository.findAll();
-
-        // Log the entity list before mapping
-        restaurantEntities.forEach(restaurantEntity ->
-                System.out.println("Restaurant Entity: " + restaurantEntity));
-
         return restaurantEntities.stream()
                 .map(restaurantEntity -> modelMapper.map(restaurantEntity, Restaurant.class))
                 .collect(Collectors.toList());
@@ -53,26 +49,26 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void signUp(Restaurant restaurant) {
-        // Check if email is already taken
         if (restaurantRepository.existsByManagerEmail(restaurant.getManagerEmail())) {
             throw new RuntimeException("Email is already registered.");
         }
 
-        // Check if contact number is already taken
         if (restaurantRepository.existsByContactNumber(restaurant.getContactNumber())) {
             throw new RuntimeException("Contact number is already registered.");
         }
 
-        // If both are unique, save the restaurant
+        // Encrypt the password before saving
+        restaurant.setManagerPassword(textEncryptor.encrypt(restaurant.getManagerPassword()));
         restaurantRepository.save(modelMapper.map(restaurant, RestaurantEntity.class));
     }
 
-
     @Override
     public boolean logIn(String email, String password) {
-        List<RestaurantEntity> byEmail=restaurantRepository.findByManagerEmail(email);
-        for (RestaurantEntity restaurant:byEmail){
-            if (restaurant.getManagerPassword().equals(password)){
+        List<RestaurantEntity> byEmail = restaurantRepository.findByManagerEmail(email);
+        for (RestaurantEntity restaurant : byEmail) {
+            // Decrypt stored password and compare
+            String decryptedPassword = textEncryptor.decrypt(restaurant.getManagerPassword());
+            if (decryptedPassword.equals(password)) {
                 return true;
             }
         }
@@ -88,6 +84,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new RuntimeException("Restaurant with given email not found.");
         }
     }
+
     @Override
     public RestaurantEntity updateRestaurant(Long id, RestaurantEntity updatedRestaurant) {
         RestaurantEntity existing = restaurantRepository.findById(id)
@@ -98,14 +95,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         existing.setContactNumber(updatedRestaurant.getContactNumber());
         existing.setManagerEmail(updatedRestaurant.getManagerEmail());
 
-        // Optional: Only update password if provided (e.g., for profile updates)
+        // Update the password only if provided
         if (updatedRestaurant.getManagerPassword() != null && !updatedRestaurant.getManagerPassword().isEmpty()) {
-            existing.setManagerPassword(updatedRestaurant.getManagerPassword());
+            existing.setManagerPassword(textEncryptor.encrypt(updatedRestaurant.getManagerPassword()));
         }
 
         return restaurantRepository.save(existing);
     }
-
-
-
 }

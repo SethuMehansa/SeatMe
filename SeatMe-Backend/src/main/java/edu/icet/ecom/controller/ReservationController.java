@@ -33,6 +33,16 @@ public class ReservationController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/get-by-customer/{customerId}")
+    public ResponseEntity<List<Reservation>> getReservationsByCustomerId(@PathVariable Long customerId) {
+        List<Reservation> reservations = reservationService.getReservationsByCustomerId(customerId);
+
+        if (reservations.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(reservations);
+        }
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {

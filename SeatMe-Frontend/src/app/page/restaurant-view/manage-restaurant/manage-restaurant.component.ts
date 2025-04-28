@@ -24,14 +24,14 @@ export class ManageRestaurantComponent implements OnInit {
   currentRestaurant: Restaurant | null = null;
   tables: Table[] = [];
   searchTerm: string = '';
-  availabilityFilter: string = 'all'; // Added availability filter
+  availabilityFilter: string = 'all'; 
   showAddModal: boolean = false;
   showUpdateModal = false;
   showDeleteModal = false;
   confirmDeleteStep = false;
   deletePassword = '';
 
-  // Table creation form model (no ID to avoid backend error)
+  
   newTable: Partial<Table> = {
     tableNumber: '',
     capacity: 0,
@@ -158,7 +158,6 @@ export class ManageRestaurantComponent implements OnInit {
 
   // Handle search term change
   onSearchChange(): void {
-    // You can add any additional logic you want to handle search term changes here
     console.log('Search term changed:', this.searchTerm);
   }
 
@@ -168,15 +167,15 @@ export class ManageRestaurantComponent implements OnInit {
   }
   deleteRestaurant() {
     if (!this.confirmDeleteStep) {
-      // First step: ask for confirmation
+     
       this.confirmDeleteStep = true;
     } else {
-      // Simulate backend password verification
+     
       if (this.deletePassword === this.currentRestaurant?.managerPassword) {
-        // Call the service to delete the restaurant (replace this with your actual logic)
+       
         this.restaurantService.deleteRestaurant(this.currentRestaurant!.id).subscribe(() => {
           alert('Restaurant deleted successfully');
-          // Add any cleanup or redirection here
+         
         });
         this.showDeleteModal = false;
         this.confirmDeleteStep = false;

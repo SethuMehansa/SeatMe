@@ -1,0 +1,9 @@
+.background-container {
+    background-image: url('/foodtable.jpg'); 
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    min-height: 100vh;
+    width: 100%;
+  }
+  

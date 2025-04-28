@@ -7,6 +7,10 @@ import { RestaurantLoginComponent } from './page/restaurant-view/restaurant-logi
 import { RestaurantSignupComponent } from './page/restaurant-view/restaurant-signup/restaurant-signup.component';
 import { CustomerSignupComponent } from './page/customer-view/customer-signup/customer-signup.component';
 import { ManageRestaurantComponent } from './page/restaurant-view/manage-restaurant/manage-restaurant.component';
+import { ReserveTableComponent } from './page/customer-view/reserve-table/reserve-table.component';
+import { BrowseRestaurantsComponent } from './page/customer-view/browse-restaurants/browse-restaurants.component';
+import { CancelReservationComponent } from './page/customer-view/cancel-reservation/cancel-reservation.component';
+
 
 export const routes: Routes = [
     {
@@ -18,12 +22,24 @@ export const routes: Routes = [
         component: CustomerViewComponent,
         children: [
             {
-                path: "customer-login",
+                path: "browse-restaurants",
+                component: BrowseRestaurantsComponent
+            },
+            {
+                path: "",
                 component: CustomerLoginComponent
             },
             {
                 path: "customer-signup",
                 component: CustomerSignupComponent
+            },
+            {
+                path: "reserve-table",
+                component: ReserveTableComponent
+            },
+            {
+                path: "cancel-reservation",
+                component: CancelReservationComponent
             }
         ]
     },

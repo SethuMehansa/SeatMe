@@ -46,6 +46,21 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Customer loginRequest) {
+        return customerService.findByEmail(loginRequest.getEmail())
+                .map(customer -> {
+                    if (customer.getContactNumber().equals(loginRequest.getContactNumber())) {
+                        return ResponseEntity.ok(customer); // Login success
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body("Invalid email or contact number");
+                    }
+                })
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Invalid email or contact number"));
+    }
+
 }
 
 

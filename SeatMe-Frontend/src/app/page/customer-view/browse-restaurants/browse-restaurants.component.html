@@ -1,0 +1,97 @@
+<!-- "Click Me" Dialog Box (Only visible before first toggle click) -->
+<div *ngIf="!firstClickDone"
+  class="fixed top-5 right-16 z-30 bg-white/90 border border-gray-300 rounded-xl shadow-lg px-6 py-4 text-gray-700 text-sm backdrop-blur-md">
+   Click the button to view actions!👉
+</div>
+
+<!-- More Actions Button -->
+<button (click)="toggleActions($event)" 
+  class="fixed top-4 right-4 text-white bg-gray-200 hover:bg-gray-700 font-medium rounded-full text-sm p-2 focus:outline-none z-20">
+  <svg class="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+    viewBox="0 0 24 24">
+    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 12h.01m6 0h.01m5.99 0h.01" />
+  </svg>
+</button>
+
+<!-- Action Buttons Container -->
+<div *ngIf="showActions"
+  class="absolute top-14 right-4 w-72 space-y-3 transition-all duration-300 ease-in-out bg-white/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 p-4 rounded-2xl shadow-2xl z-20">
+  
+  <button routerLink="/customer-view/" type="button"
+    class="w-full text-gray-800 bg-gradient-to-r from-red-100 via-rose-100 to-orange-100 hover:from-rose-200 hover:to-red-200 focus:ring-2 focus:outline-none focus:ring-rose-200 font-semibold rounded-lg text-sm px-5 py-3 shadow-md transition-all duration-200">
+    Logout
+  </button>
+
+  <button routerLink="/customer-view/cancel-reservation" type="button"
+    class="w-full text-gray-800 bg-gradient-to-r from-green-100 via-lime-100 to-green-200 hover:from-lime-200 hover:to-green-300 focus:ring-2 focus:outline-none focus:ring-green-300 font-semibold rounded-lg text-sm px-5 py-3 shadow-md transition-all duration-200">
+    Cancel Reservation
+  </button>
+
+  <p class="text-xs text-gray-500 text-center italic">Click anywhere to close</p>
+</div>
+
+<!-- Background overlay when actions are visible -->
+<div *ngIf="showActions" class="fixed inset-0 bg-gray-800 opacity-50 z-10" (click)="closeActions()"></div>
+
+<!-- Browse Restaurants Section -->
+<div class="fixed inset-0 z-0 bg-cover bg-center">
+  <div class="absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 bg-white/10 dark:bg-gray-900/70 backdrop-blur-lg p-8 overflow-auto rounded-2xl shadow-lg custom-scrollbar">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Browse Restaurants</h2>
+
+      <!-- Search Input -->
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="searchRestaurants()"
+        placeholder="Search by restaurant name..."
+        class="w-full md:w-1/2 px-4 py-2 mb-6 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      />
+
+      <!-- No Results -->
+      <div *ngIf="filteredRestaurants.length === 0" class="text-gray-600 dark:text-gray-300 text-lg">
+        <p>No restaurants found.</p>
+      </div>
+
+      <!-- Restaurant Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div 
+          *ngFor="let restaurant of filteredRestaurants" 
+          class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-2xl shadow-md border border-white/30 dark:border-gray-700 transition hover:shadow-lg"
+        >
+          <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{{ restaurant.name }}</h3>
+          <p class="text-gray-700 dark:text-gray-300"><strong>Address:</strong> {{ restaurant.address }}</p>
+          <p class="text-gray-700 dark:text-gray-300"><strong>Contact:</strong> {{ restaurant.contactNumber }}</p>
+
+          <!-- View Button -->
+          <button 
+            class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            (click)="viewRestaurantDetails(restaurant.id)"
+          >
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Table List Modal -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal">
+    <h2>Tables at {{ selectedRestaurant?.name }}</h2>
+
+    <div *ngIf="restaurantTables.length > 0" class="table-cards-container">
+      <div class="table-card" *ngFor="let table of restaurantTables">
+        <h3>Table #{{ table.tableNumber }}</h3>
+        <p>Seats: {{ table.capacity }}</p>
+        <p>Availability: {{ table.available }}</p>
+        <button class="reserve-btn" (click)="reserveSelectedTable(table)">Reserve</button>
+      </div>
+    </div>
+
+    <p *ngIf="restaurantTables.length === 0">No tables available.</p>
+
+    <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+  </div>
+</div>

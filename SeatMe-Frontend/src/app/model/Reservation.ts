@@ -1,5 +1,5 @@
 export class Reservation {
-    id: number;
+    id?: number;
     customerId: number;
     tableId: number;
     reservationTime: string;

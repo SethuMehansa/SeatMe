@@ -7,13 +7,16 @@ import { CustomerLoginComponent } from './page/customer-view/customer-login/cust
 import { RestaurantViewComponent } from './page/restaurant-view/restaurant-view.component';
 import { RestaurantLoginComponent } from './page/restaurant-view/restaurant-login/restaurant-login.component';
 import { RestaurantSignupComponent } from './page/restaurant-view/restaurant-signup/restaurant-signup.component';
-import { CustomerSignupComponent } from './page/customer-view/customer-signup/customer-signup.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ManageRestaurantComponent } from './page/restaurant-view/manage-restaurant/manage-restaurant.component';
+import { CustomerSignupComponent } from './page/customer-view/customer-signup/customer-signup.component';
+import { ReserveTableComponent } from './page/customer-view/reserve-table/reserve-table.component';
+import { BrowseRestaurantsComponent } from './page/customer-view/browse-restaurants/browse-restaurants.component';
+import { CancelReservationComponent } from './page/customer-view/cancel-reservation/cancel-reservation.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,LandingPageComponent,CustomerViewComponent,CustomerLoginComponent,RestaurantViewComponent,RestaurantLoginComponent,RestaurantSignupComponent,CustomerSignupComponent,ManageRestaurantComponent],
+  imports: [RouterOutlet,LandingPageComponent,CustomerViewComponent,CustomerLoginComponent,RestaurantViewComponent,RestaurantLoginComponent,RestaurantSignupComponent,CancelReservationComponent,CustomerSignupComponent,ManageRestaurantComponent,ReserveTableComponent,BrowseRestaurantsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

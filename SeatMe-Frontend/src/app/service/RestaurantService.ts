@@ -4,25 +4,28 @@ import { Observable } from 'rxjs';
 import { Restaurant } from '../model/Restaurant';
 
 @Injectable({
-  providedIn: 'root' // This should make sure the service is globally available
+  providedIn: 'root' 
 })
 export class RestaurantService {
   private apiUrl = 'http://localhost:8080/api/restaurants';
   private currentRestaurant: Restaurant | null = null;
-  constructor(private http: HttpClient) { } // HttpClient injected here
+  constructor(private http: HttpClient) { } 
 
 
   setCurrentRestaurant(restaurant: Restaurant): void {
     this.currentRestaurant = restaurant;
-    console.log('Restaurant set:', this.currentRestaurant);  // Log when the restaurant is set
+    console.log('Restaurant set:', this.currentRestaurant);  
   }
   
   getCurrentRestaurant(): Restaurant | null {
-    console.log('Restaurant retrieved:', this.currentRestaurant);  // Log when the restaurant is retrieved
+    console.log('Restaurant retrieved:', this.currentRestaurant);  
     return this.currentRestaurant;
   }
   
-
+  updateRestaurant(id: number, data: Partial<Restaurant>): Observable<Restaurant> {
+    return this.http.put<Restaurant>(`${this.apiUrl}/update/${id}`, data);
+  }
+  
   createRestaurant(restaurant: Restaurant): Observable<Restaurant> {
     return this.http.post<Restaurant>(`${this.apiUrl}/create-restaurant`, restaurant);
   }

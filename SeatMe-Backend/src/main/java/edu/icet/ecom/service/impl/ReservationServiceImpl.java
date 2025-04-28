@@ -47,4 +47,12 @@ public class ReservationServiceImpl implements ReservationService {
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
+    @Override
+    public List<Reservation> getReservationsByCustomerId(Long customerId) {
+        List<ReservationEntity> reservationEntities = reservationRepository.findByCustomerId(customerId);
+        return reservationEntities.stream()
+                .map(reservationEntity -> modelMapper.map(reservationEntity, Reservation.class))
+                .collect(Collectors.toList());
+    }
+
 }

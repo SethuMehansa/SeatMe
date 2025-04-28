@@ -8,13 +8,13 @@ import { Restaurant } from '../../../model/Restaurant';
 
 @Component({
   selector: 'app-restaurant-login',
-  standalone: true, // Ensure the component is standalone
+  standalone: true, 
   imports: [
     CommonModule, 
     FormsModule,
     RouterLink,
     RouterOutlet,
-    HttpClientModule // Import HttpClientModule here
+    HttpClientModule 
   ],
   templateUrl: './restaurant-login.component.html',
   styleUrls: ['./restaurant-login.component.css']

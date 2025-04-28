@@ -1,5 +1,6 @@
 package edu.icet.ecom.config;
 
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +24,11 @@ public class Config {
                         .allowedHeaders("*");
             }
         };
+    }
+    @Bean
+    public BasicTextEncryptor textEncryptor() {
+        BasicTextEncryptor encryptor = new BasicTextEncryptor();
+        encryptor.setPassword("1234"); // 🔥 Secret key for encryption
+        return encryptor;
     }
 }
